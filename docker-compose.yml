@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    redis:
+        image: 'redis'
+    worker:
+        build: 
+            context: .
+            dockerfile: Dockerfile.worker 
+        depends_on: 
+            - redis
+        deploy:
+            replicas: 5
+    
+    main:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on: 
+            - redis
+            - worker 
+
